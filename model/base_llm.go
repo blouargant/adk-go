@@ -62,7 +62,6 @@ func (m *BaseLLM) GenerateContent(ctx context.Context, request *types.LLMRequest
 func (m *BaseLLM) StreamGenerateContent(ctx context.Context, request *types.LLMRequest) iter.Seq2[*types.LLMResponse, error] {
 	return func(yield func(*types.LLMResponse, error) bool) {
 		yield(nil, types.NotImplementedError(fmt.Sprintf("BaseLLM: async generation is not supported for %s", m.modelName)))
-		return
 	}
 }
 

@@ -199,7 +199,7 @@ func (m *Claude) messageToGenerateContentResponse(ctx context.Context, message *
 }
 
 // updateTypeString updates 'type' field to expected JSON schema format.
-func (m *Claude) updateTypeString(dict map[string]any) {
+func (m *Claude) UpdateTypeString(dict map[string]any) {
 	if v, ok := dict["type"]; ok {
 		dict["type"] = strings.ToLower(v.(string))
 	}
@@ -207,14 +207,14 @@ func (m *Claude) updateTypeString(dict map[string]any) {
 	if v, ok := dict["items"]; ok {
 		// 'type' field could exist for items as well, this would be the case if
 		// items represent primitive types.
-		m.updateTypeString(v.(map[string]any))
+		m.UpdateTypeString(v.(map[string]any))
 
 		if vv, ok := v.(map[string]any)["properties"]; ok {
 			// There could be properties as well on the items, especially if the items
 			// are complex object themselves. We recursively traverse each individual
 			// property as well and fix the "type" value.
 			for _, value := range vv.(map[string]any) {
-				m.updateTypeString(value.(map[string]any))
+				m.UpdateTypeString(value.(map[string]any))
 			}
 		}
 	}
